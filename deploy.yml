@@ -1,0 +1,17 @@
+---
+
+# This is for newly deployed linux servers
+
+- name: Apply common configuration
+  hosts: new_deploy
+  become: true
+
+  roles:
+    - common
+
+- name: Apply configuration to newly deployed machines
+  hosts: new_deploy
+  become: true
+
+  roles:
+   - new_deploy
