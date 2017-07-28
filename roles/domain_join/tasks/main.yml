@@ -4,14 +4,25 @@
 - name: Load Secrets
   include_vars: "secrets.yml"
 
+- name: Load Variables
+  include_vars: "vars.yml"
+
 - name: Install pip
-  apt: name=python-pip state=present
+  apt: 
+    name: python-pip
+    state: present
+    update_cache: yes
 
 - name: Install pexpect
-  pip: name=pexpect state=present  
+  pip: 
+    name: pexpect
+    state: present  
 
 - name: Install AD Domain packages
-  apt: name={{ item }} state=present update_cache=yes
+  apt: 
+    name: {{ item }}
+    state: present 
+    update_cache: yes
   with_items:
     - realmd
     - sssd
@@ -25,11 +36,22 @@
   tags: ad
 
 - name: Copy realmd.conf
-  template: src=realmd.conf.j2 dest=/etc/realmd.conf owner=root group=root mode=0644
+  template: 
+    src: realmd.conf.j2
+    dest: /etc/realmd.conf
+    owner: root
+    group: root
+    mode: 0644
   tags: ad
 
 - name: Copy krb5.conf
-  template: src=krb5.conf.j2 dest=/etc/krb5.conf backup=yes owner=root group=root mode=0644
+  template: 
+    src: krb5.conf.j2
+    dest: /etc/krb5.conf
+    backup: yes
+    owner: root
+    group: root
+    mode: 0644
   tags: ad
 
 - name: Discover realm
@@ -38,7 +60,8 @@
   tags: ad
 
 - name: Discover realm debug
-  debug: msg={{ realm_discover_results.stdout }}
+  debug: 
+    msg: {{ realm_discover_results.stdout }}
 
 - name: Create kerberos ticket
   expect:
@@ -54,7 +77,8 @@
   tags: ad
 
 - name: Debug realm_list_results
-  debug: msg={{ realm_list_results.stdout }}
+  debug:
+    msg: {{ realm_list_results.stdout }}
 
 - name: Join system to AD
   expect:
@@ -72,16 +96,26 @@
 - name: Create sudoers file backup
   command: cp -f /etc/sudoers /etc/sudoers.bak
 
-- name: Add group to sudoers
+- name: Add domain admins group to sudoers
   lineinfile: dest=/etc/sudoers.tmp state=present line='%domain\ admins ALL=(ALL:ALL) ALL' regexp='^%domain'
 
 - name: Final sudoers file check
   shell: visudo -q -c -f /etc/sudoers.tmp && cp -f /etc/sudoers.tmp /etc/sudoers
 
 - name: Copy sssd.conf
-  template: src=sssd.conf.j2 dest=/etc/sssd/sssd.conf owner=root group=root mode=0644
+  template:
+    src: sssd.conf.j2
+    dest: /etc/sssd/sssd.conf
+    owner: root
+    group: root
+    mode: 0644
   tags: ad
 
 - name: Copy pam common-session
-  template: src=common-session.j2 dest=/etc/pam.d/common-session owner=root group=root mode=644
+  template: 
+    src: common-session.j2
+    dest: /etc/pam.d/common-session
+    owner: root
+    group: root
+    mode: 0644
   tags: ad

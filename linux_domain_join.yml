@@ -1,17 +1,17 @@
 ---
 
-# This is for newly deployed linux servers
+# This playbook joins a linux server (debian/ubunto) to an active directory domain.
 
 - name: Apply common configuration
-  hosts: new_deploy
+  hosts: domain_join
   become: true
 
   roles:
     - common
 
 - name: Apply configuration to newly deployed machines
-  hosts: new_deploy
+  hosts: domain_join
   become: true
 
   roles:
-   - new_deploy
+   - domain_join
