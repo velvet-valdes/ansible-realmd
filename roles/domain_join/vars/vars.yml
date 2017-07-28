@@ -1,5 +1,6 @@
 ---
 
 realm_domain: yourdomain.local
+# It is important that krb5 domain is in ALL CAPITALS
 krb5_default_realm: YOURDOMAIN.LOCAL
 realm_ad_ou: OU=Linux,OU=Servers,DC=yourdomain,DC=local
