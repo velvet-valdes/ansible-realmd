@@ -1,6 +1,6 @@
 ---
 
-realm_domain: yourdomain.local
+realm_domain: leg3.net
 # It is important that krb5 domain is in ALL CAPITALS
-krb5_default_realm: YOURDOMAIN.LOCAL
-realm_ad_ou: OU=Linux,OU=Servers,DC=yourdomain,DC=local
+krb5_default_realm: LEG3.NET
+realm_ad_ou: OU=Linux,DC=leg3,DC=net
